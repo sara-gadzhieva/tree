@@ -5,7 +5,7 @@ class node {
         int value;
         node *left,*right,*parent;
         friend class tree;
-     
+
         public:
         node(int num):value(num),left(nullptr),right(nullptr),parent(nullptr) {}
         };
@@ -16,7 +16,7 @@ class tree {
         clear(p->left);
         clear(p->right) ;
         delete p;
-        
+
         }
         public:
         tree():root(nullptr) {} 
@@ -62,41 +62,30 @@ class tree {
                 }
   void show() {
     if (!root) {
-        cout<<"дерево пусто\n";
+        cout << "дерево пусто\n";
         return;
     }
 
-    queue<node*> q;
-    q.push(root);
-
-    int idx = 1;  
-  cout<<"("<<idx<<", "<<root->value<<") ";
-
-    int sled_vetk=2;
+    queue<pair<int, node*>> q;
+    q.push({1, root}); 
 
     while (!q.empty()) {
-        int count = q.size(); 
-        int pos = sled_vetk;
+        pair<int, node*> cur = q.front();
+        q.pop();
 
-        for (int i=0; i<count; i++) {
-            node* cur = q.front();
-            q.pop();
+        int idx = cur.first;
+        node* p = cur.second;
 
-            if (cur->left) {
-                cout <<"("<< pos <<", "<< cur->left->value <<") ";
-                q.push(cur->left);
-            }
-            pos++;
-            if (cur->right) {
-                cout <<"("<<pos<<", "<<cur->right->value<<") ";
-                q.push(cur->right);
-            }
-            pos++;
-        }
-        sled_vetk=pos;
+        cout<<"("<<idx<< ", "<<p->value<< ") ";
+
+        if (p->left)
+            q.push({idx*2, p->left});       
+
+        if (p->right)
+            q.push({idx*2+1, p->right});  
     }
 
-    cout<<endl;
+    cout << endl;
 }
         };
 int main() {
@@ -105,8 +94,8 @@ int main() {
         a.add(3);
         a.add(10);
         a.add(11);
-        
-        
+        a.add(2);
+
         a.show();
         return 0;
         }
