@@ -1,5 +1,6 @@
-///промежуточный результат
-///изменена индексация элементов дерева(начало с 0) в функции show, добавлена функция удаления элемента и функции записи текста в html файл "output.html"
+///╨┐╤А╨╛╨╝╨╡╨╢╤Г╤В╨╛╤З╨╜╤Л╨╣ ╤А╨╡╨╖╤Г╨╗╤М╤В╨░╤В
+///╨╕╨╖╨╝╨╡╨╜╨╡╨╜╨░ ╨╕╨╜╨┤╨╡╨║╤Б╨░╤Ж╨╕╤П ╤Н╨╗╨╡╨╝╨╡╨╜╤В╨╛╨▓ ╨┤╨╡╤А╨╡╨▓╨░(╨╜╨░╤З╨░╨╗╨╛ ╤Б 0) ╨▓ ╤Д╤Г╨╜╨║╤Ж╨╕╨╕ show, ╨┤╨╛╨▒╨░╨▓╨╗╨╡╨╜╨░ ╤Д╤Г╨╜╨║╤Ж╨╕╤П ╤Г╨┤╨░╨╗╨╡╨╜╨╕╤П ╤Н╨╗╨╡╨╝╨╡╨╜╤В╨░ ╨╕ ╤Д╤Г╨╜╨║╤Ж╨╕╨╕ ╨╖╨░╨┐╨╕╤Б╨╕ ╤В╨╡╨║╤Б╤В╨░ ╨▓ html ╤Д╨░╨╣╨╗ "output.html"
+
 
 #include <iostream>
 #include <queue>
@@ -41,7 +42,7 @@ class tree {
 		if(!new_obb) return false;
 		if(root==nullptr) {
 			root=new_obb;
-			///cout<<"в дерево добавлен элемент "<<new_obb->value<<endl;
+			///cout<<"╨▓ ╨┤╨╡╤А╨╡╨▓╨╛ ╨┤╨╛╨▒╨░╨▓╨╗╨╡╨╜ ╤Н╨╗╨╡╨╝╨╡╨╜╤В "<<new_obb->value<<endl;
 			return true;
 			}
 		node *current=root;
@@ -51,7 +52,7 @@ class tree {
 				else {
 					current->left=new_obb;
 					new_obb->parent=current;
-					///cout<<"в дерево добавлен элемент "<<new_obb->value<<endl;
+					///cout<<"╨▓ ╨┤╨╡╤А╨╡╨▓╨╛ ╨┤╨╛╨▒╨░╨▓╨╗╨╡╨╜ ╤Н╨╗╨╡╨╝╨╡╨╜╤В "<<new_obb->value<<endl;
 					return true;
 					}
 				}
@@ -60,7 +61,7 @@ class tree {
 				else {
 					current->right=new_obb;
 					new_obb->parent=current;
-					///cout<<"в дерево добавлен элемент "<<new_obb->value<<endl;
+					///cout<<"╨▓ ╨┤╨╡╤А╨╡╨▓╨╛ ╨┤╨╛╨▒╨░╨▓╨╗╨╡╨╜ ╤Н╨╗╨╡╨╝╨╡╨╜╤В "<<new_obb->value<<endl;
 					return true;
 					}
 				}
@@ -77,7 +78,7 @@ class tree {
             node *max=current->left;
             while(max->right) max=max->right;
             current->value=max->value;
-			///дописать (связи)
+			///╨┤╨╛╨┐╨╕╤Б╨░╤В╤М (╤Б╨▓╤П╨╖╨╕)
             }
 		else {
             node *child=current->right;
@@ -91,7 +92,7 @@ class tree {
 		}
 	void show() {
 		if (!root) {
-			cout<<"дерево пусто"<<endl;
+			cout<<"┬д┬е├а┬е┬в┬о ┬п├г├б├в┬о"<<endl;
 			return;
 			}
 		queue<pair<int, node*>> q;
@@ -113,7 +114,7 @@ void f1(ofstream &fout) {
 	fout<<"<html lang=\"ru\">"<<endl;
 	fout<<"<head>"<<endl;
 	fout<<"<meta charset=\"UTF-8\">"<<endl;
-	fout<<"<title>Дерево поиска</title>"<<endl;
+	fout<<"<title>тАЮ┬е├а┬е┬в┬о ┬п┬о┬и├б┬к┬а</title>"<<endl;
 	fout<<"<script type=\"module\">"<<endl;
 	fout<<"import mermaid from \"https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs\";"<<endl;
 	fout<<"mermaid.initialize({ startOnLoad: true,"<<endl;
@@ -140,7 +141,7 @@ void f3(ofstream &fout) {
 int main() {
 	ofstream fout("output.html");
 	if(!fout.is_open()) {
-		cout<<"ошибка открытия файла"<<endl;
+		cout<<"┬о├и┬и┬б┬к┬а ┬о├в┬к├а├л├в┬и├п ├д┬а┬й┬л┬а"<<endl;
 		return 1;
 		}
 	tree a;
@@ -158,4 +159,5 @@ int main() {
 	f3(fout);
 	return 0;
 	}
+
 
