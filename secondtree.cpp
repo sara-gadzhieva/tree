@@ -1,7 +1,6 @@
 ///промежуточный результат
 ///изменена индексация элементов дерева(начало с 0) в функции show, добавлена функция удаления элемента и функции записи текста в html файл "output.html"
 
-
 #include <iostream>
 #include <queue>
 #include <fstream>
@@ -92,7 +91,7 @@ class tree {
 		}
 	void show() {
 		if (!root) {
-			cout<<"¤¥à¥¢® ¯ãáâ®"<<endl;
+			cout<<"дерево пусто"<<endl;
 			return;
 			}
 		queue<pair<int, node*>> q;
@@ -114,7 +113,7 @@ void f1(ofstream &fout) {
 	fout<<"<html lang=\"ru\">"<<endl;
 	fout<<"<head>"<<endl;
 	fout<<"<meta charset=\"UTF-8\">"<<endl;
-	fout<<"<title>„¥à¥¢® ¯®¨áª </title>"<<endl;
+	fout<<"<title>Дерево поиска</title>"<<endl;
 	fout<<"<script type=\"module\">"<<endl;
 	fout<<"import mermaid from \"https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs\";"<<endl;
 	fout<<"mermaid.initialize({ startOnLoad: true,"<<endl;
@@ -141,7 +140,7 @@ void f3(ofstream &fout) {
 int main() {
 	ofstream fout("output.html");
 	if(!fout.is_open()) {
-		cout<<"®è¨¡ª  ®âªàëâ¨ï ä ©« "<<endl;
+		cout<<"ошибка открытия файла"<<endl;
 		return 1;
 		}
 	tree a;
@@ -159,5 +158,4 @@ int main() {
 	f3(fout);
 	return 0;
 	}
-
 
