@@ -145,7 +145,7 @@ void f1(ofstream &fout) {
 	fout<<"<!DOCTYPE html>"<<endl;
 	fout<<"<html lang=\"ru\">"<<endl;
 	fout<<"<head>"<<endl;
-	fout<<"<meta charset=\"CP866\">"<<endl;
+	fout<<"<meta charset=\"UTF-8\">"<<endl;
 	fout<<"<title>Дерево поиска</title>"<<endl;
 	fout<<"<script type=\"module\">"<<endl;
 	fout<<"import mermaid from \"https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs\";"<<endl;
