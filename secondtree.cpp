@@ -7,19 +7,28 @@ class Node {
         Node *left,*right,*parent;
         friend class Tree;
         public:
-        Node(int num)
+        Node(int num);
         };
 Node::Node(int num):value(num),left(nullptr),right(nullptr),parent(nullptr) {}
 
 class Tree {
         Node *root;
-        void clear(Node* p) {
+        void clear(Node* p);
+        void f2(std::ofstream &fout);
+public:
+        Tree();
+        ~Tree();
+        bool search(int num);
+        bool add(int num,std::ofstream &fout);
+        bool del(int num,std::ofstream &fout);
+        };
+void Tree::clear(Node* p) {
                 if(!p) return;
                 clear(p->left);
                 clear(p->right);
                 delete p;
                 }
-void f2(std::ofstream &fout) {
+void Tree::f2(std::ofstream &fout) {
         if(!root) {
                 fout<<"<div align=\"center\">дерево пусто</div>"<<std::endl;
                 return;
@@ -62,85 +71,82 @@ void f2(std::ofstream &fout) {
         fout<<"classDef hidden display: none;"<<std::endl;
         fout<<"</div>"<<std::endl;
         }
-        public:
-        Tree():root(nullptr) {} 
-        ~Tree() {
-                clear(root);
+Tree::Tree():root(nullptr) {}
+Tree::~Tree() {
+        clear(root);
+        }
+bool Tree::search(int num) { 
+        Node *current=root;
+        while(current) {
+                if(num==current->value) return true;
+                if(num<current->value) current=current->left;
+                else current=current->right;
                 }
-        bool search(int num) { 
+        return false;
+        }
+bool Tree::add(int num, std::ofstream &fout) { 
+        Node *new_obb=new(std::nothrow) Node(num);
+        if(!new_obb) return false;
+        if(root==nullptr) {
+                root=new_obb;
+                }
+        else {
                 Node *current=root;
-                while(current) {
-                        if(num==current->value) return true;
-                        if(num<current->value) current=current->left;
-                        else current=current->right;
-                        }
-                return false;
-                }
-        bool add(int num, std::ofstream &fout) { 
-                Node *new_obb=new(std::nothrow) Node(num);
-                if(!new_obb) return false;
-                if(root==nullptr) {
-                        root=new_obb;
-                        }
-                else {
-                        Node *current=root;
-                        while(true) {
-                                if(num<=current->value) {
-                                        if(current->left!=nullptr) current=current->left;
-                                        else {
-                                                current->left=new_obb;
-                                                new_obb->parent=current;
-                                                break;
-                                                }
-                                }
+                while(true) {
+                        if(num<=current->value) {
+                                if(current->left!=nullptr) current=current->left;
                                 else {
-                                        if(current->right!=nullptr) current=current->right;
-                                        else {
-                                                current->right=new_obb;
-                                                new_obb->parent=current;
-                                                break;
-                                                }
+                                        current->left=new_obb;
+                                        new_obb->parent=current;
+                                        break;
+                                        }
+                        }
+                        else {
+                                if(current->right!=nullptr) current=current->right;
+                                else {
+                                        current->right=new_obb;
+                                        new_obb->parent=current;
+                                        break;
                                         }
                                 }
                         }
-                fout<<"<div align=\"center\">"<<std::endl;
-                fout<<"в дерево добавлен элемент "<<new_obb->value<<std::endl;
-                fout<<"</div>"<<std::endl;
-                f2(fout);
-                return true;
+                }
+        fout<<"<div align=\"center\">"<<std::endl;
+        fout<<"в дерево добавлен элемент "<<new_obb->value<<std::endl;
+        fout<<"</div>"<<std::endl;
+        f2(fout);
+        return true;
         }
-        bool del(int num,std::ofstream &fout) {
-                Node *current=root;
-                while(current && current->value!=num) {
-                        if(num<current->value) current=current->left;
-                        else current=current->right;
-                        }
-                if(!current) return false;
-                if(current->left) {
-                        Node *max=current->left;
-                        while(max->right) max=max->right;
-                        current->value=max->value;
-                        if(max->parent->left==max) max->parent->left=max->left;
-                        else max->parent->right=max->left;
-                        if(max->left) max->left->parent=max->parent;
-                        delete max;
-                        }
-                else {
-                        Node *child=current->right;
-                        if(!current->parent) root=child;
-                        else if(current->parent->left==current) current->parent->left=child;
-                        else current->parent->right=child;
-                        if(child) child->parent=current->parent;
-                        delete current;
-                        }
-                fout<<"<div align=\"center\">"<<std::endl;
-                fout<<"из дерева удален элемент "<<num<<std::endl;
-                fout<<"</div>"<<std::endl;
-                f2(fout);
-                return true;
+bool Tree::del(int num,std::ofstream &fout)  {
+        Node *current=root;
+        while(current && current->value!=num) {
+                if(num<current->value) current=current->left;
+                else current=current->right;
+                }
+        if(!current) return false;
+        if(current->left) {
+                Node *max=current->left;
+                while(max->right) max=max->right;
+                current->value=max->value;
+                if(max->parent->left==max) max->parent->left=max->left;
+                else max->parent->right=max->left;
+                if(max->left) max->left->parent=max->parent;
+                delete max;
+                }
+        else {
+                Node *child=current->right;
+                if(!current->parent) root=child;
+                else if(current->parent->left==current) current->parent->left=child;
+                else current->parent->right=child;
+                if(child) child->parent=current->parent;
+                delete current;
+                }
+        fout<<"<div align=\"center\">"<<std::endl;
+        fout<<"из дерева удален элемент "<<num<<std::endl;
+        fout<<"</div>"<<std::endl;
+        f2(fout);
+        return true;
         }
-};
-
 void f1(std::ofstream &fout) {
         fout<<"<!DOCTYPE html>"<<std::endl;
         fout<<"<html lang=\"ru\">"<<std::endl;
