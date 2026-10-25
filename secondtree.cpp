@@ -6,7 +6,7 @@ class Node {
         int value;
         Node *left,*right,*parent;
         friend class Tree;
-        public:
+public:
         Node(int num);
         };
 Node::Node(int num):value(num),left(nullptr),right(nullptr),parent(nullptr) {}
@@ -23,11 +23,11 @@ public:
         bool del(int num,std::ofstream &fout);
         };
 void Tree::clear(Node* p) {
-                if(!p) return;
-                clear(p->left);
-                clear(p->right);
-                delete p;
-                }
+        if(!p) return;
+        clear(p->left);
+        clear(p->right);
+        delete p;
+        }
 void Tree::f2(std::ofstream &fout) {
         if(!root) {
                 fout<<"<div align=\"center\">дерево пусто</div>"<<std::endl;
