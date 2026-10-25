@@ -7,8 +7,9 @@ class Node {
         Node *left,*right,*parent;
         friend class Tree;
         public:
-        Node(int num):value(num),left(nullptr),right(nullptr),parent(nullptr) {}
+        Node(int num)
         };
+Node::Node(int num):value(num),left(nullptr),right(nullptr),parent(nullptr) {}
 
 class Tree {
         Node *root;
