@@ -6,28 +6,31 @@
 namespace utils {
 namespace tree {
 
-Node::Node(int num):value(num),left(nullptr),right(nullptr),parent(nullptr) {}
+template <typename T>
+Node<T>::Node(T num):value(num),left(nullptr),right(nullptr),parent(nullptr) {}
 
-void Tree::clear(Node* p) {
+template <typename T>
+void Tree<T>::clear(Node<T>* p) {
         if(!p) return;
         clear(p->left);
         clear(p->right);
         delete p;
         }
 
-void Tree::f2(std::ofstream &fout) {
+template <typename T>
+void Tree<T>::f2(std::ofstream &fout) {
         if(!root) {
                 fout<<"<div align=\"center\">дерево пусто</div>"<<std::endl;
                 return;
                 }
-        Node* arr[200];
+        Node<T>* arr[200];
         for(int i=0;i<200;i++) arr[i]=nullptr;
-        std::queue<std::pair<int,Node*>> q;
+        std::queue<std::pair<int,Node<T>*>> q;
         q.push({0,root});
         int max_idx=0;
         while(!q.empty()) {
                 int idx=q.front().first;
-                Node* p=q.front().second;
+                Node<T>* p=q.front().second;
                 q.pop();
                 if(idx>=200) continue;
                 arr[idx]=p;
@@ -59,14 +62,17 @@ void Tree::f2(std::ofstream &fout) {
         fout<<"</div>"<<std::endl;
         }
 
-Tree::Tree():root(nullptr) {}
+template <typename T>
+Tree<T>::Tree():root(nullptr) {}
 
-Tree::~Tree() {
+template <typename T>
+Tree<T>::~Tree() {
         clear(root);
         }
 
-bool Tree::search(int num) {
-        Node *current=root;
+template <typename T>
+bool Tree<T>::search(T num) {
+        Node<T> *current=root;
         while(current) {
                 if(num==current->value) return true;
                 if(num<current->value) current=current->left;
@@ -75,14 +81,15 @@ bool Tree::search(int num) {
         return false;
         }
 
-bool Tree::add(int num, std::ofstream &fout) {
-        Node *new_obb=new(std::nothrow) Node(num);
+template <typename T>
+bool Tree<T>::add(T num, std::ofstream &fout) {
+        Node<T> *new_obb=new(std::nothrow) Node<T>(num);
         if(!new_obb) return false;
         if(root==nullptr) {
                 root=new_obb;
                 }
         else {
-                Node *current=root;
+                Node<T> *current=root;
                 while(true) {
                         if(num<=current->value) {
                                 if(current->left!=nullptr) current=current->left;
@@ -109,15 +116,16 @@ bool Tree::add(int num, std::ofstream &fout) {
         return true;
         }
 
-bool Tree::del(int num,std::ofstream &fout) {
-        Node *current=root;
+template <typename T>
+bool Tree<T>::del(T num,std::ofstream &fout) {
+        Node<T> *current=root;
         while(current && current->value!=num) {
                 if(num<current->value) current=current->left;
                 else current=current->right;
                 }
         if(!current) return false;
         if(current->left) {
-                Node *max=current->left;
+                Node<T> *max=current->left;
                 while(max->right) max=max->right;
                 current->value=max->value;
                 if(max->parent->left==max) max->parent->left=max->left;
@@ -126,7 +134,7 @@ bool Tree::del(int num,std::ofstream &fout) {
                 delete max;
                 }
         else {
-                Node *child=current->right;
+                Node<T> *child=current->right;
                 if(!current->parent) root=child;
                 else if(current->parent->left==current) current->parent->left=child;
                 else current->parent->right=child;
@@ -140,5 +148,10 @@ bool Tree::del(int num,std::ofstream &fout) {
         return true;
         }
 
-}
+template class Node<int>;
+template class Node<double>;
+template class Tree<int>;
+template class Tree<double>;
+
+} 
 } 
