@@ -66,8 +66,30 @@ template <typename T>
 Tree<T>::Tree():root(nullptr) {}
 
 template <typename T>
+Node<T>* Tree<T>::copy(Node<T>* p,Node<T>* parent) {
+        if(!p) return nullptr;
+        Node<T> *new_node=new Node<T>(p->value);
+        new_node->parent=parent;
+        new_node->left=copy(p->left,new_node);
+        new_node->right=copy(p->right,new_node);
+        return new_node;
+        }
+
+template <typename T>
+Tree<T>::Tree(const Tree<T> &other):root(copy(other.root,nullptr)) {}
+
+template <typename T>
 Tree<T>::~Tree() {
         clear(root);
+        }
+
+template <typename T>
+Tree<T>& Tree<T>::operator=(const Tree<T> &other) {
+        if(this==&other) return *this;
+        Node<T> *new_root=copy(other.root,nullptr);
+        clear(root);
+        root=new_root;
+        return *this;
         }
 
 template <typename T>

@@ -21,9 +21,12 @@ class Tree {
         Node<T> *root;
         void clear(Node<T>* p);
         void f2(std::ofstream &fout);
+        Node<T>* copy(Node<T>* p,Node<T>* parent);
 public:
         Tree();
+        Tree(const Tree<T> &other);
         ~Tree();
+        Tree<T>& operator=(const Tree<T> &other);
         bool search(T num);
         bool add(T num,std::ofstream &fout);
         bool del(T num,std::ofstream &fout);
