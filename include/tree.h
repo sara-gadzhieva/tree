@@ -1,6 +1,7 @@
 #ifndef TREE_H
 #define TREE_H
 #include <iosfwd>
+#include <memory>
 namespace utils {
 namespace tree {
 
@@ -10,7 +11,8 @@ class Tree;
 template <typename T>
 class Node {
         T value;
-        Node<T> *left,*right,*parent;
+        std::unique_ptr<Node<T>> left,right;
+        Node<T> *parent;
         friend class Tree<T>;
         public:
         Node(T num);
@@ -18,10 +20,9 @@ class Node {
 
 template <typename T>
 class Tree {
-        Node<T> *root;
-        void clear(Node<T>* p);
+        std::unique_ptr<Node<T>> root;
         void f2(std::ofstream &fout);
-        Node<T>* copy(Node<T>* p,Node<T>* parent);
+        std::unique_ptr<Node<T>> copy(const Node<T>* p,Node<T>* parent);
 public:
         Tree();
         Tree(const Tree<T> &other);

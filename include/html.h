@@ -1,6 +1,6 @@
-#ifndef TREE_HTML_H
-#define TREE_HTML_H
-#include <fstream>
+#ifndef HTML_H
+#define HTML_H
+#include <iosfwd>
 namespace utils {
 namespace html {
 

@@ -11,3 +11,11 @@ target_include_directories(html PUBLIC include)
 
 add_executable(search_tree main.cpp)
 target_link_libraries(search_tree PRIVATE tree html)
+
+if(EXISTS ${CMAKE_SOURCE_DIR}/tests/doctest.h)
+    add_executable(tree_tests tests/test_tree.cpp)
+    target_include_directories(tree_tests PRIVATE tests)
+    target_link_libraries(tree_tests PRIVATE tree)
+else()
+    message(STATUS "tests/doctest.h not found, tests are not built")
+endif()
