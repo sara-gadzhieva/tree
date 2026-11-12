@@ -3,10 +3,10 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <regex>
 #include "html.h"
 #include "tree.h"
-
-namespace opt = boost::program_options;
+namespace opt=boost::program_options;
 int main(int argc, char** argv) {
         opt::options_description desc("Параметры");
         std::string output_name;
@@ -38,29 +38,51 @@ int main(int argc, char** argv) {
         utils::html::f1(fout);
         utils::tree::Tree<int> a;
         for(int v : values) a.add(v,fout);
+        std::string input;
+        std::regex num_regex(R"(^-?\d+$)");
         int choice, x;
         while (1) {
                 std::cout<<"1 - добавить элемент"<<std::endl;
                 std::cout<<"2 - удалить элемент"<<std::endl;
                 std::cout<<"3 - поиск элемента"<<std::endl;
                 std::cout<<"4 - выход из программы"<<std::endl;
-                std::cin>>choice;
+                std::cin>>input;
+                if(!std::regex_match(input, std::regex(R"(^[1-4]$)"))) {
+                        std::cout<<"введите число от 1 до 4"<<std::endl;
+                        continue;
+                }
+                choice = std::stoi(input);
         switch (choice) {
         case 1:
             std::cout<<"введите значение элемента для добавления: ";
-            std::cin>>x;
+            std::cin>>input;
+            if(!std::regex_match(input, num_regex)) {
+                std::cout<<"некорректный ввод, введите целое число"<<std::endl;
+                break;
+            }
+            x = std::stoi(input);
             if (a.add(x,fout)) std::cout<<"элемент добавлен"<<std::endl;
             else std::cout<<"ошибка при добавлении"<<std::endl;
             break;
         case 2:
             std::cout<<"введите значение элемента для удаления: ";
-            std::cin>>x;
+            std::cin>>input;
+            if(!std::regex_match(input, num_regex)) {
+                std::cout<<"некорректный ввод, введите целое число"<<std::endl;
+                break;
+            }
+            x = std::stoi(input);
             if (a.del(x,fout)) std::cout<<"элемент удалён"<<std::endl;
             else std::cout<<"элемент не найден"<<std::endl;
             break;
                 case 3:
                         std::cout<<"введите значение элемента для поиска: ";
-                        std::cin>>x;
+                        std::cin>>input;
+                        if(!std::regex_match(input, num_regex)) {
+                                std::cout<<"некорректный ввод, введите целое число"<<std::endl;
+                                break;
+                        }
+                        x = std::stoi(input);
                         if (a.search(x)) std::cout<<"элемент найден"<<std::endl;
                         else std::cout<<"элемент не найден"<<std::endl;
                         break;
