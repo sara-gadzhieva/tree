@@ -1,7 +1,8 @@
 #include "tree.h"
-#include <fstream>
+#include <ostream>
 #include <queue>
 #include <utility>
+#include <vector>
 namespace utils {
 namespace tree {
 
@@ -9,13 +10,12 @@ template <typename T>
 Node<T>::Node(T num):value(num),left(nullptr),right(nullptr),parent(nullptr) {}
 
 template <typename T>
-void Tree<T>::f2(std::ofstream &fout) {
+void Tree<T>::f2(std::ostream &fout) const {
         if(!root) {
                 fout<<"<div align=\"center\">дерево пусто</div>"<<std::endl;
                 return;
                 }
-        Node<T>* arr[200];
-        for(int i=0;i<200;i++) arr[i]=nullptr;
+        std::vector<Node<T>*> arr(200,nullptr);
         std::queue<std::pair<int,Node<T>*>> q;
         q.push({0,root.get()});
         int max_idx=0;
@@ -31,6 +31,7 @@ void Tree<T>::f2(std::ofstream &fout) {
                 }
         int full=0;
         while(full<max_idx) full=full*2+2;
+        if(full>=200) full=199;
         fout<<"<div class=\"mermaid\" align=\"center\" style=\"padding-bottom: 10px; margin-bottom: 10px; border-bottom: 2px solid black\">"<<std::endl;
         fout<<"graph TD"<<std::endl;
         for(int i=0;i<=full;i++) {
@@ -54,7 +55,7 @@ void Tree<T>::f2(std::ofstream &fout) {
         }
 
 template <typename T>
-Tree<T>::Tree():root(nullptr) {}
+Tree<T>::Tree() noexcept:root(nullptr) {}
 
 template <typename T>
 std::unique_ptr<Node<T>> Tree<T>::copy(const Node<T>* p,Node<T>* parent) {
@@ -70,7 +71,7 @@ template <typename T>
 Tree<T>::Tree(const Tree<T> &other):root(copy(other.root.get(),nullptr)) {}
 
 template <typename T>
-Tree<T>::~Tree() {}
+Tree<T>::~Tree() noexcept = default;
 
 template <typename T>
 Tree<T>& Tree<T>::operator=(const Tree<T> &other) {
@@ -80,7 +81,7 @@ Tree<T>& Tree<T>::operator=(const Tree<T> &other) {
         }
 
 template <typename T>
-bool Tree<T>::search(T num) {
+bool Tree<T>::search(T num) const {
         Node<T> *current=root.get();
         while(current) {
                 if(num==current->value) return true;
@@ -91,7 +92,7 @@ bool Tree<T>::search(T num) {
         }
 
 template <typename T>
-bool Tree<T>::add(T num, std::ofstream &fout) {
+bool Tree<T>::add(T num,std::ostream &fout) {
         std::unique_ptr<Node<T>> new_obb=std::make_unique<Node<T>>(num);
         if(root==nullptr) {
                 root=std::move(new_obb);
@@ -106,7 +107,7 @@ bool Tree<T>::add(T num, std::ofstream &fout) {
                                         current->left=std::move(new_obb);
                                         break;
                                         }
-                        }
+                                }
                         else {
                                 if(current->right!=nullptr) current=current->right.get();
                                 else {
@@ -125,7 +126,7 @@ bool Tree<T>::add(T num, std::ofstream &fout) {
         }
 
 template <typename T>
-bool Tree<T>::del(T num,std::ofstream &fout) {
+bool Tree<T>::del(T num,std::ostream &fout) {
         Node<T> *current=root.get();
         while(current && current->value!=num) {
                 if(num<current->value) current=current->left.get();
@@ -161,6 +162,5 @@ template class Node<int>;
 template class Node<double>;
 template class Tree<int>;
 template class Tree<double>;
-
-} 
-} 
+}
+}

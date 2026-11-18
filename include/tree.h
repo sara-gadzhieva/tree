@@ -15,29 +15,28 @@ class Node {
         Node<T> *parent;
         friend class Tree<T>;
         public:
-        Node(T num);
+        explicit Node(T num);
         };
 
 template <typename T>
 class Tree {
         std::unique_ptr<Node<T>> root;
-        void f2(std::ofstream &fout);
+        void f2(std::ostream &fout) const;
         std::unique_ptr<Node<T>> copy(const Node<T>* p,Node<T>* parent);
 public:
-        Tree();
+        Tree() noexcept;
         Tree(const Tree<T> &other);
-        ~Tree();
+        ~Tree() noexcept;
         Tree<T>& operator=(const Tree<T> &other);
-        bool search(T num);
-        bool add(T num,std::ofstream &fout);
-        bool del(T num,std::ofstream &fout);
+        bool search(T num) const;
+        bool add(T num,std::ostream &fout);
+        bool del(T num,std::ostream &fout);
         };
 
 extern template class Node<int>;
 extern template class Node<double>;
 extern template class Tree<int>;
 extern template class Tree<double>;
-
-} 
-} 
-#endif 
+}
+}
+#endif

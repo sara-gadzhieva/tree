@@ -1,9 +1,9 @@
 #include "html.h"
-#include <fstream>
+#include <ostream>
 namespace utils {
 namespace html {
 
-void f1(std::ofstream &fout) {
+void f1(std::ostream &fout) {
         fout<<"<!DOCTYPE html>"<<std::endl;
         fout<<"<html lang=\"ru\">"<<std::endl;
         fout<<"<head>"<<std::endl;
@@ -19,15 +19,14 @@ void f1(std::ofstream &fout) {
         fout<<"rankSpacing: 30"<<std::endl;  
         fout<<"}"<<std::endl;  
         fout<<"});"<<std::endl;  
-        fout<<"</script>"<<std::endl;  
+        fout<<"</script>"<<std::endl;
         fout<<"</head>"<<std::endl;
         fout<<"<body>"<<std::endl;
         }
 
-void f3(std::ofstream &fout) {
+void f3(std::ostream &fout) {
         fout<<"</body>"<<std::endl;  
         fout<<"</html>"<<std::endl;
         }
-        
-} 
-} 
+}
+}
